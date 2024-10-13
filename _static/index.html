@@ -322,6 +322,54 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14
 <div class="section-title-col" data-type="column"> <h2 class="">
 <br><br>Contact us</h2> <p class="lead">
 
+
+
+<!-- modify this form HTML and place wherever you want your form -->
+<form id="my-form" action="https://formspree.io/f/xrbgznqy" method="POST">
+    <label>Email:</label>
+    <input type="email" name="email" style="color: gray" />
+    <label>Message:</label>
+    <input type="text" name="message" style="color: gray" />
+    <button id="my-form-button">Submit</button>
+    <p id="my-form-status"></p>
+  </form>
+  
+  <!-- Place this script at the end of the body tag -->
+  <script>
+    var form = document.getElementById("my-form");
+    
+    async function handleSubmit(event) {
+      event.preventDefault();
+      var status = document.getElementById("my-form-status");
+      var data = new FormData(event.target);
+      fetch(event.target.action, {
+        method: form.method,
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          status.innerHTML = "Thanks for your submission!";
+          form.reset()
+        } else {
+          response.json().then(data => {
+            if (Object.hasOwn(data, 'errors')) {
+              status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+            } else {
+              status.innerHTML = "Oops! There was a problem submitting your form"
+            }
+          })
+        }
+      }).catch(error => {
+        status.innerHTML = "Oops! There was a problem submitting your form"
+      });
+    }
+    form.addEventListener("submit", handleSubmit)
+  </script>
+
+
+
 <br><br>Address: 651 Hillside View Drive<br>Duncansville, PA 16635<br>Phone: 814-695-6753</p>
 <img decoding="async" class="custom-image" src="/wp-content/uploads/2023/03/AMBUCS-500px-3.png" title="AMBUCS 500px" alt="">
 </div> </div> <div class="row text-center"> <div class="col-xs-12 col-sm-8 col-sm-offset-2 contact-form-wrapper inline-info"> <div class="card large-padding"> <div class="" data-content-shortcode="mesmerize_contact_form shortcode=&quot;Remove later&quot;" data-editable="true">[Remove later]</div> </div>
