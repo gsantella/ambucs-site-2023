@@ -326,7 +326,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14
 <p class="lead">c/o Chris Shirock<br>227 North Road<br>New Enterprise, PA 16664</p>
 </div> </div> <div class="row center-xs middle-xs"> <div class="col-sm-9" data-type="column"> </div> </div>
 </div> </div>
-<div id="contact" data-label="Contact" data-id="contact-1" data-export-id="contact-1" data-category="contact" class="contact-1 content-section content-section-spacing white-text" data-parallax-depth="20" style='background-image: url("/wp-content/uploads/2023/03/ContactUSEdited.png"); background-size: cover; background-position: center top;'>
+<div id="contact" data-label="Contact" data-id="contact-1" data-export-id="contact-1" data-category="contact" class="contact-1 content-section content-section-spacing white-text" data-parallax-depth="20" style='background:#03a9f4; background-size: cover; background-position: center top;'>
 <div class=""> <div class="row text-center">
 <div class="section-title-col" data-type="column"> <h2 class="">
 <br><br>Contact us</h2> <p class="lead">
@@ -335,11 +335,12 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14
 
 <!-- modify this form HTML and place wherever you want your form -->
 <form id="my-form" action="https://formspree.io/f/xrbgznqy" method="POST">
-    <label>Email:</label>
-    <input type="email" name="email" style="color: gray" />
-    <label>Message:</label>
-    <input type="text" name="message" style="color: gray" />
-    <button id="my-form-button">Submit</button>
+    <h3>Your Name: <input type="text" name="name" style="color: rgb(33, 33, 33)" required /></h3>
+    <h3>Email: <input type="email" name="email" style="color: rgb(33, 33, 33)" required /></h3>
+    
+    <h3>Message: <textarea name="message" style="color: rgb(33, 33, 33);" rows="4"></textarea></h3>
+    
+    <button id="my-form-button" style="padding: 1em; margin: 1em; color: rgb(0, 0, 104);">Submit</button>
     <p id="my-form-status"></p>
   </form>
   
