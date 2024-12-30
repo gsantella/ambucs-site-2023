@@ -55,16 +55,16 @@
 
             exports.mesmerizeDomReady = domReady;
         })(window, document);</script>
+
+    <script>
+        const wp = false;
+    </script>
 	<title>AMBUCS Altoona &#8211; The Ambucs Altoona Website</title>
 
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="alternate" type="application/rss+xml" title="AMBUCS Altoona &raquo; Feed" href="/feed/">
 <link rel="alternate" type="application/rss+xml" title="AMBUCS Altoona &raquo; Comments Feed" href="/comments/feed/">
-<script>
-window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.2.2"}};
-/*! This file is auto-generated */
-!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){p.clearRect(0,0,i.width,i.height),p.fillText(e,0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(t,0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t,a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(p&&p.fillText)switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s("🏳️‍⚧️","🏳️​⚧️")?!1:!s("🇺🇳","🇺​🇳")&&!s("🏴󠁧󠁢󠁥󠁮󠁧󠁿","🏴​󠁧​󠁢​󠁥​󠁮​󠁧​󠁿");case"emoji":return!s("🫱🏻‍🫲🏿","🫱🏻​🫲🏿")}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(e=t.source||{}).concatemoji?c(e.concatemoji):e.wpemoji&&e.twemoji&&(c(e.twemoji),c(e.wpemoji)))}(window,document,window._wpemojiSettings);
-</script>
+
 <style>
 
     img.wp-smiley, img.emoji {
@@ -101,6 +101,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14
 
 <link rel="stylesheet" id="mesmerize-fonts-css" href="https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700%7CMuli%3A300%2C300italic%2C400%2C400italic%2C600%2C600italic%2C700%2C700italic%2C900%2C900italic%7CPlayfair+Display%3A400%2C400italic%2C700%2C700italic&#038;subset=latin%2Clatin-ext&#038;display=swap" type="text/css" media="all">
 
+<script src="https://www.google.com/recaptcha/api.js?render=6LdauZEqAAAAAI8Z2JpUtNzs9DPtYvAXPPlL3yHb"></script>
 <script  src="/wp-includes/js/jquery/jquery.min.js?ver=3.6.4" id="jquery-core-js"></script>
 <script  src="/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.0" id="jquery-migrate-js"></script>
 <script  id="jquery-js-after">
@@ -378,36 +379,45 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14
   <script>
     var form = document.getElementById("my-form");
     
-    async function handleSubmit(event) {
-      event.preventDefault();
-      var status = document.getElementById("my-form-status");
-      var data = new FormData(event.target);
-      fetch(event.target.action, {
-        method: form.method,
-        body: data,
-        headers: {
-            'Accept': 'application/json'
-        }
-      }).then(response => {
-        if (response.ok) {
-          status.innerHTML = "Thanks for your submission!";
-          form.reset()
-        } else {
-          response.json().then(data => {
-            if (Object.hasOwn(data, 'errors')) {
-              status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
-            } else {
-              status.innerHTML = "Oops! There was a problem submitting your form"
-            }
-          })
-        }
-      }).catch(error => {
-        status.innerHTML = "Oops! There was a problem submitting your form"
-      });
-    }
-    form.addEventListener("submit", handleSubmit)
-  </script>
+    async function handleSubmit() {
 
+        event.preventDefault();
+        
+        var status = document.getElementById("my-form-status");
+        var dataFromForm = new FormData(event.target);
+
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LdauZEqAAAAAI8Z2JpUtNzs9DPtYvAXPPlL3yHb', {action: 'submit'}).then(function(token) {
+
+                // reCAPTCHA is passed
+                // Make API call to FormSpree
+                jQuery.ajax({
+                    url: "https://formspree.io/f/xwpkaazn",
+                    method: "POST",
+                    dataType: "json",
+                    data: {
+                        name: dataFromForm.get('name'),
+                        email: dataFromForm.get('email'),
+                        phone: dataFromForm.get('phone'),
+                        message: dataFromForm.get('message'),
+                        "g-recaptcha-response": token
+                    },
+                    success: () => {
+                        status.innerHTML = "Thanks for your submission!";
+                        form.reset()
+                    },
+                    error: (err) => {
+                        status.innerHTML = "Oops! There was a problem submitting your form";
+                    }
+              })
+        });
+    });
+}
+
+form.addEventListener("submit", handleSubmit)
+
+
+</script>
 
 
 <br>
@@ -434,7 +444,7 @@ window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14
 <script  defer src="/wp-includes/js/imagesloaded.min.js?ver=4.1.4" id="imagesloaded-js"></script>
 <script  defer src="/wp-includes/js/masonry.min.js?ver=4.2.2" id="masonry-js"></script>
 <script  defer src="/wp-content/themes/mesmerize/assets/js/theme.bundle.min.js?ver=1.6.112" id="mesmerize-theme-js"></script>
-<script  src="/wp-content/plugins/visual-footer-credit-remover/script.js?ver=6.2.2" id="jabvfcr_script-js"></script>
+<!--<script  src="/wp-content/plugins/visual-footer-credit-remover/script.js?ver=6.2.2" id="jabvfcr_script-js"></script>-->
     <script>/(trident|msie)/i.test(navigator.userAgent) && document.getElementById && window.addEventListener && window.addEventListener("hashchange", function () {
             var t, e = location.hash.substring(1);
             /^[A-z0-9_-]+$/.test(e) && (t = document.getElementById(e)) && (/^(?:a|select|input|button|textarea)$/i.test(t.tagName) || (t.tabIndex = -1), t.focus())
